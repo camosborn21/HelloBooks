@@ -19,6 +19,7 @@ namespace HelloBooks.Models
 
 	    public virtual AppUserAccountTypes AppUserAccountType { get; set; }
 			
+		public string GoogleCalendarId { get; set; }
 			
     }
 }

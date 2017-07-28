@@ -189,6 +189,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -197,6 +198,14 @@
     <Compile Include="Migrations\201707270819396_InitialMigrate.cs" />
     <Compile Include="Migrations\201707270819396_InitialMigrate.Designer.cs">
       <DependentUpon>201707270819396_InitialMigrate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707280659477_UpdatedRegistration.cs" />
+    <Compile Include="Migrations\201707280659477_UpdatedRegistration.Designer.cs">
+      <DependentUpon>201707280659477_UpdatedRegistration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707280704048_UpdatedRegistrationWithNames.cs" />
+    <Compile Include="Migrations\201707280704048_UpdatedRegistrationWithNames.Designer.cs">
+      <DependentUpon>201707280704048_UpdatedRegistrationWithNames.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -216,6 +225,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\BooksOnSideImage.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -268,6 +278,12 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Books\Create.cshtml" />
+    <Content Include="Views\Books\Delete.cshtml" />
+    <Content Include="Views\Books\Details.cshtml" />
+    <Content Include="Views\Books\Edit.cshtml" />
+    <Content Include="Views\Books\Index.cshtml" />
+    <Content Include="Views\Books\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -290,6 +306,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201707270819396_InitialMigrate.resx">
       <DependentUpon>201707270819396_InitialMigrate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707280659477_UpdatedRegistration.resx">
+      <DependentUpon>201707280659477_UpdatedRegistration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707280704048_UpdatedRegistrationWithNames.resx">
+      <DependentUpon>201707280704048_UpdatedRegistrationWithNames.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -39,6 +39,8 @@ namespace HelloBooks.Utilities
 		public IDbSet<ReadingProgress> ReadingProgress { get; set; }
 		public IDbSet<BookCategoryPair> CategoryPairs { get; set; }
 		public IDbSet<BookCategory> BookCategories { get; set; }
+
+		public System.Data.Entity.DbSet<HelloBooks.Models.ApplicationUser> ApplicationUsers { get; set; }
 	}
 
 	public class FakeApplciationDbContext : IApplicationDbContext

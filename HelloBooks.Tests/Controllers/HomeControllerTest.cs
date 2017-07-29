@@ -13,7 +13,7 @@ namespace HelloBooks.Tests.Controllers
 	public class HomeControllerTest
 	{
 		[TestMethod]
-		public void Index()
+		public void IndexAlwaysGetsIndexView()
 		{
 			// Arrange
 			HomeController controller = new HomeController();
@@ -26,7 +26,7 @@ namespace HelloBooks.Tests.Controllers
 		}
 
 		[TestMethod]
-		public void About()
+		public void AboutAlwaysGetAboutView()
 		{
 			// Arrange
 			HomeController controller = new HomeController();
@@ -39,7 +39,7 @@ namespace HelloBooks.Tests.Controllers
 		}
 
 		[TestMethod]
-		public void Contact()
+		public void ContactAlwaysGetsAboutView()
 		{
 			// Arrange
 			HomeController controller = new HomeController();

@@ -24,6 +24,8 @@ namespace HelloBooks.Models
 		public int TotalPageCount { get; set; }
 
 		public bool DoneWithBook { get; set; }
+
+		public string ThumbnailLink { get; set; }
 	
 		public virtual ICollection<BookCategoryPair> Categories { get; set; }
 	}

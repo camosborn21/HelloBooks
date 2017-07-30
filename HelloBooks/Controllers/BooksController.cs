@@ -6,25 +6,28 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Google.Apis.Books.v1;
+using Google.Apis.Services;
 using HelloBooks.Models;
 using HelloBooks.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace HelloBooks.Controllers
 {
-    public class BooksController : Controller
-    {
-        private ApplicationDbContext db = new ApplicationDbContext();
+	[Authorize]
+	public class BooksController : Controller
+	{
+		private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Books
-        public ActionResult Index()
-        {
+		// GET: Books
+		public ActionResult Index()
+		{
 			//var books = db.Books.Include(b => b.User);
-	        var userId = User.Identity.GetUserId();
-			ICollection<Book> books = db.Books.Where(c=>c.ApplicationUserId == userId).ToList();
+			var userId = User.Identity.GetUserId();
+			ICollection<Book> books = db.Books.Where(c => c.ApplicationUserId == userId).ToList();
 
-            return View(books);
-        }
+			return View(books);
+		}
 
 		// GET: Books/Details/5
 		public ActionResult Details(int? id)
@@ -38,22 +41,22 @@ namespace HelloBooks.Controllers
 			{
 				return HttpNotFound();
 			}
+			var userId = User.Identity.GetUserId();
+			if (book.User.Id != userId)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
+			}
 			return View(book);
 		}
 
 		// GET: Books/Create
 		public ActionResult Create()
 		{
-			//var userId = User.Identity.GetUserId();
-			//ViewBag.ApplicationUserId = new SelectList(db.ApplicationUsers, "Id", "FirstName");
-			//ViewBag.ApplicationUserId = User.Identity.GetUserId();
 			return View();
 		}
 
-		//public ActionResult List()
-		//{
-		//	return View();
-		//}
+
 		// POST: Books/Create
 		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -63,7 +66,7 @@ namespace HelloBooks.Controllers
 		{
 			var userId = User.Identity.GetUserId();
 			book.ApplicationUserId = userId;
-			 //new ApplicationDbContext().Users.First(c => c.Id == userId);
+			//new ApplicationDbContext().Users.First(c => c.Id == userId);
 			book.DoneWithBook = false;
 			//if (!ModelState.IsValid) return View(book);
 			db.Books.Add(book);
@@ -71,6 +74,32 @@ namespace HelloBooks.Controllers
 			return RedirectToAction("Index");
 
 			//ViewBag.ApplicationUserId = new SelectList(db.ApplicationUsers, "Id", "FirstName", book.ApplicationUserId);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult ISBNSearch(string autoISBN)
+		{
+			IsbnLookup lookup = new IsbnLookup(autoISBN);
+			if (lookup.ReturnedOneVolume)
+			{
+
+				ViewBag.ResultTitle = lookup.Title;
+				ViewBag.ResultISBN = lookup.ResultIsbn;
+				ViewBag.ResultPageCount = lookup.PageCount;
+				ViewBag.ThumbnailLink = lookup.ThumbnailLink;
+				ViewBag.ReturnIsbn = "";
+				
+			}
+			else
+			{
+				ViewBag.ResultTitle = string.Empty;
+				ViewBag.ResultISBN = string.Empty;
+				ViewBag.ResultPageCount = string.Empty;
+				ViewBag.ReturnIsbn = "No results found for the ISBN: " + lookup.ReturnIsbn;
+
+			}
+			return View("Create");
 		}
 
 		// GET: Books/Edit/5

@@ -1,19 +1,18 @@
 ﻿@model IEnumerable<HelloBooks.Models.Book>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Library";
 }
 
-<h2>Index</h2>
+<h2>Library</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(" Add Book", "Create", null, new{ @class="btn   btn-default btn-lg glyphicon glyphicon-plus"})
+	
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
@@ -30,10 +29,7 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.FirstName)
-        </td>
+    <tr onclick="location.href = '@(Url.Action("Details","Books",new {id=item.Id}))'">
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>

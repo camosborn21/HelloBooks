@@ -17,7 +17,8 @@ namespace HelloBooks.Utilities
 		IDbSet<ReadingProgress> ReadingProgress { get; set; }
 		IDbSet<BookCategoryPair> CategoryPairs { get; set; }
 		IDbSet<BookCategory> BookCategories { get; set; }
-
+		IDbSet<BookPropertyType> BookPropertyTypes { get; set; }
+		IDbSet<BookProperty> BookProperties { get; set; }
 
 		int SaveChanges();
 	}
@@ -39,7 +40,8 @@ namespace HelloBooks.Utilities
 		public IDbSet<ReadingProgress> ReadingProgress { get; set; }
 		public IDbSet<BookCategoryPair> CategoryPairs { get; set; }
 		public IDbSet<BookCategory> BookCategories { get; set; }
-
+		public IDbSet<BookPropertyType> BookPropertyTypes { get; set; }
+		public IDbSet<BookProperty> BookProperties{ get; set; }
 		//public System.Data.Entity.DbSet<HelloBooks.Models.ApplicationUser> ApplicationUsers { get; set; }
 	}
 
@@ -57,5 +59,8 @@ namespace HelloBooks.Utilities
 		public IDbSet<ReadingProgress> ReadingProgress { get; set; }
 		public IDbSet<BookCategoryPair> CategoryPairs { get; set; }
 		public IDbSet<BookCategory> BookCategories { get; set; }
+		public IDbSet<BookPropertyType> BookPropertyTypes { get; set; }
+		public IDbSet<BookProperty> BookProperties { get; set; }
+
 	}
 }

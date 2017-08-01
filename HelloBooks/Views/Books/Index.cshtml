@@ -1,53 +1,59 @@
 ﻿@model IEnumerable<HelloBooks.Models.Book>
 
 @{
-    ViewBag.Title = "Library";
+	ViewBag.Title = "Library";
 }
 
 <h2>Library</h2>
 
-<p>
-    @Html.ActionLink(" Add Book", "Create", null, new{ @class="btn   btn-default btn-lg glyphicon glyphicon-plus"})
-	
-</p>
+<div>
+	<a class="btn btn-default btn-lg" style="margin: 10px 0;" href="@Url.Action("Create","Books")"><span class="glyphicon glyphicon-plus"></span> Add Book</a>
+</div>
 <table class="table">
-    <tr>
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.ThumbnailLink)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Title)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Isbn)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TotalPageCount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DoneWithBook)
+			</th>
+			<th></th>
+		</tr>
 
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Isbn)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalPageCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DoneWithBook)
-        </th>
-        <th></th>
-    </tr>
+		@foreach (var item in Model)
+		{
+			<tr onclick="location.href = '@(Url.Action("Details","Books",new {id=item.Id}))'">
+				<td>
+					<img src="@item.ThumbnailLink"/>
+					@Html.HiddenFor(modelItem => item.ThumbnailLink)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Isbn)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.TotalPageCount)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DoneWithBook)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+					@Html.ActionLink("Details", "Details", new { id = item.Id }) |
+					@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+				</td>
+			</tr>
+		}
 
-@foreach (var item in Model) {
-    <tr onclick="location.href = '@(Url.Action("Details","Books",new {id=item.Id}))'">
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Isbn)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalPageCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DoneWithBook)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>
+	</table>

@@ -25,6 +25,7 @@ namespace HelloBooks.Models
 
 		public bool DoneWithBook { get; set; }
 
+		[Display(Name = "Thumbnail")]
 		public string ThumbnailLink { get; set; }
 	
 		public virtual ICollection<BookCategoryPair> Categories { get; set; }

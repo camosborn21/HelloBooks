@@ -17,7 +17,17 @@ namespace HelloBooks.Controllers
 	[Authorize]
 	public class BooksController : Controller
 	{
-		private ApplicationDbContext db = new ApplicationDbContext();
+		private IApplicationDbContext db;
+
+		public BooksController()
+		{
+			db = new ApplicationDbContext();
+		}
+
+		public BooksController(IApplicationDbContext dbContext)
+		{
+			db = dbContext;
+		}
 
 		// GET: Books
 		public ActionResult Index()
@@ -53,7 +63,8 @@ namespace HelloBooks.Controllers
 		// GET: Books/Create
 		public ActionResult Create()
 		{
-			return View();
+			Book m = new Book();
+			return View(m);
 		}
 
 
@@ -62,12 +73,12 @@ namespace HelloBooks.Controllers
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "Title,Isbn,TotalPageCount")] Book book)
+		public ActionResult Create([Bind(Include = "ThumbnailLink,Title,Isbn,TotalPageCount")] Book book)
 		{
 			var userId = User.Identity.GetUserId();
 			book.ApplicationUserId = userId;
-			//new ApplicationDbContext().Users.First(c => c.Id == userId);
 			book.DoneWithBook = false;
+			
 			//if (!ModelState.IsValid) return View(book);
 			db.Books.Add(book);
 			db.SaveChanges();
@@ -81,15 +92,18 @@ namespace HelloBooks.Controllers
 		public ActionResult ISBNSearch(string autoISBN)
 		{
 			IsbnLookup lookup = new IsbnLookup(autoISBN);
+			Book m = new Book();
+			
 			if (lookup.ReturnedOneVolume)
 			{
 
-				ViewBag.ResultTitle = lookup.Title;
-				ViewBag.ResultISBN = lookup.ResultIsbn;
-				ViewBag.ResultPageCount = lookup.PageCount;
-				ViewBag.ThumbnailLink = lookup.ThumbnailLink;
+
+				m.Title = lookup.Title;
+				m.Isbn = lookup.ResultIsbn;
+				m.TotalPageCount = lookup.PageCount ?? 0;
+				m.ThumbnailLink = lookup.ThumbnailLink;
 				ViewBag.ReturnIsbn = "";
-				
+
 			}
 			else
 			{
@@ -99,7 +113,7 @@ namespace HelloBooks.Controllers
 				ViewBag.ReturnIsbn = "No results found for the ISBN: " + lookup.ReturnIsbn;
 
 			}
-			return View("Create");
+			return View("Create", m);
 		}
 
 		// GET: Books/Edit/5

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using Google.Apis.Books.v1;
@@ -11,6 +12,7 @@ using Google.Apis.Services;
 using HelloBooks.Models;
 using HelloBooks.Utilities;
 using Microsoft.AspNet.Identity;
+using System.Web.Routing;
 
 namespace HelloBooks.Controllers
 {
@@ -18,22 +20,36 @@ namespace HelloBooks.Controllers
 	public class BooksController : Controller
 	{
 		private IApplicationDbContext db;
+		private IPrincipal principal;
 
+		//protected override void Initialize(RequestContext reqeustContext)
+		//{
+		//	base.Initialize(reqeustContext);
+		//}
+		
 		public BooksController()
 		{
 			db = new ApplicationDbContext();
+			principal = System.Web.HttpContext.Current.User;
 		}
 
 		public BooksController(IApplicationDbContext dbContext)
 		{
 			db = dbContext;
+			principal = System.Web.HttpContext.Current.User;
+		}
+
+		public BooksController(IApplicationDbContext dbContext, IPrincipal principal)
+		{
+			db = dbContext;
+			this.principal = principal;
 		}
 
 		// GET: Books
 		public ActionResult Index()
 		{
-			//var books = db.Books.Include(b => b.User);
-			var userId = User.Identity.GetUserId();
+			
+			var userId = principal.Identity.GetUserId();
 			ICollection<Book> books = db.Books.Where(c => c.ApplicationUserId == userId).ToList();
 
 			return View(books);
@@ -51,7 +67,7 @@ namespace HelloBooks.Controllers
 			{
 				return HttpNotFound();
 			}
-			var userId = User.Identity.GetUserId();
+			var userId = principal.Identity.GetUserId();
 			if (book.User.Id != userId)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
@@ -75,7 +91,7 @@ namespace HelloBooks.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create([Bind(Include = "ThumbnailLink,Title,Isbn,TotalPageCount")] Book book)
 		{
-			var userId = User.Identity.GetUserId();
+			var userId = principal.Identity.GetUserId();
 			book.ApplicationUserId = userId;
 			book.DoneWithBook = false;
 			

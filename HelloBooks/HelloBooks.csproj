@@ -249,6 +249,7 @@
     <Compile Include="Utilities\ApplicationDbContext.cs" />
     <Compile Include="Utilities\FakeDbSet.cs" />
     <Compile Include="Utilities\IsbnLookup.cs" />
+    <Compile Include="Utilities\MyClassAuthorizationAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

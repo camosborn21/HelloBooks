@@ -61,6 +61,6 @@ namespace HelloBooks.Utilities
 		public IDbSet<BookCategory> BookCategories { get; set; }
 		public IDbSet<BookPropertyType> BookPropertyTypes { get; set; }
 		public IDbSet<BookProperty> BookProperties { get; set; }
-
+		public IDbSet<HelloBooks.Models.ApplicationUser> ApplicationUsers { get; set; }
 	}
 }

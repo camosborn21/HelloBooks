@@ -1,57 +1,134 @@
-﻿@model HelloBooks.Models.Book
+﻿@using HelloBooks.Controllers
+@using HelloBooks.Models
+@model HelloBooks.Models.Book
 
 @{
-    ViewBag.Title = "Details";
+	ViewBag.Title = "Details";
 }
 
+<script>
+	$(function () { $("#DueDate").datepicker(); });
+</script>
 <h2>Details</h2>
 
 <div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </dt>
+	<h4>Book</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.User.FirstName)
+		</dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
-        </dd>
+		<dd>
+			@Html.DisplayFor(model => model.User.FirstName)
+		</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Title)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Title)
+		</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Isbn)
-        </dt>
+		<dt>
+			@Html.DisplayNameFor(model => model.Isbn)
+		</dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Isbn)
-        </dd>
+		<dd>
+			@Html.DisplayFor(model => model.Isbn)
+		</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalPageCount)
-        </dt>
+		<dt>
+			@Html.DisplayNameFor(model => model.TotalPageCount)
+		</dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TotalPageCount)
-        </dd>
+		<dd>
+			@Html.DisplayFor(model => model.TotalPageCount)
+		</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DoneWithBook)
-        </dt>
+		<dt>
+			@Html.DisplayNameFor(model => model.DoneWithBook)
+		</dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DoneWithBook)
-        </dd>
+		<dd>
+			@Html.DisplayFor(model => model.DoneWithBook)
+		</dd>
 
-    </dl>
+	</dl>
 </div>
+<h4>Assignments</h4>
+<table class="table" id="assignmentsTable">
+	<tr>
+		<th>Assignment Name</th>
+		<th>Due Date</th>
+		<th>Pages Per Hour</th>
+		<th></th>
+	</tr>
+	@foreach (var item in Model.Assignments)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.AssignmentName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.DueDate)
+			</td>
+			<td>
+				@if (item.ModifiedPagesPerHour > 0)
+				{
+					@Html.DisplayFor(modelItem => item.ModifiedPagesPerHour)
+				}
+				else
+				{
+					@Html.DisplayFor(modelItem => item.ReadingDifficulty.PagesPerHour)
+				}
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td colspan="3">
+				<table class="table">
+					<tr>
+						<th>Start at</th>
+						<th>Finish at</th>
+						<th>Pages remaining</th>
+						<th></th>
+					</tr>
+					@foreach (var reading in item.Pages)
+					{
+
+						<tr>
+							<td>
+								@Html.DisplayFor(readingItem => reading.StartPage)
+							</td>
+							<td>
+								@Html.DisplayFor(readingItem => reading.LastPage)
+							</td>
+							<td>
+								@{ int pagesRemaining = reading.LastPage - reading.StartPage;}
+								@Html.DisplayFor(c => pagesRemaining)
+							</td>
+							<td><a href="" class="btn btn-default" style="padding:5px"><span class="glyphicon-pencil"></span> Record Progress</a></td>
+						</tr>
+									}
+					<tr>
+						<td colspan="4">
+							<a href="" class="btn btn-default" style="padding: 5px"><span class="glyphicon-plus"></span> Add Required Reading</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+
+									}
+	@{Assignment newAssignment = new Assignment(){Book=Model};}
+	@Html.Partial("../Assignments/_newAssignmentPartial", newAssignment)
+	@* Modify due date to accept due time as well *@
+</table>
+
+
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+	@Html.ActionLink("Back to List", "Index")
 </p>

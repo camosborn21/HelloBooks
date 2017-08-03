@@ -24,10 +24,20 @@ namespace HelloBooks.Utilities
 	}
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
 	{
+        
 		public ApplicationDbContext()
-			: base("SecondaryConnection", throwIfV1Schema: false)
+			: base(GetConnectionString(), throwIfV1Schema: false)
 		{
 		}
+
+	    private static string GetConnectionString()
+	    {
+	        if (System.Environment.UserDomainName == "OSBORNWEBDEV")
+	        {
+	            return ("LaptopDevConnection");
+	        }
+	        return ("SecondaryConnection");
+	    }
 
 		public static ApplicationDbContext Create()
 		{

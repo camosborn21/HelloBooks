@@ -76,6 +76,21 @@ namespace HelloBooks.Controllers
 			return View(book);
 		}
 
+		// GET: Books/Edit/5
+		public ActionResult Edit(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Book book = db.Books.Find(id);
+			if (book == null)
+			{
+				return HttpNotFound();
+			}
+			return View(book);
+		}
+
 		// GET: Books/Create
 		public ActionResult Create()
 		{
@@ -132,21 +147,7 @@ namespace HelloBooks.Controllers
 			return View("Create", m);
 		}
 
-		// GET: Books/Edit/5
-		//public ActionResult Edit(int? id)
-		//{
-		//	if (id == null)
-		//	{
-		//		return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-		//	}
-		//	Book book = db.Books.Find(id);
-		//	if (book == null)
-		//	{
-		//		return HttpNotFound();
-		//	}
-		//	ViewBag.ApplicationUserId = new SelectList(db.ApplicationUsers, "Id", "FirstName", book.ApplicationUserId);
-		//	return View(book);
-		//}
+
 
 		// POST: Books/Edit/5
 		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 

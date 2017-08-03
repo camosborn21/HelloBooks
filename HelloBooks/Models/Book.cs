@@ -28,6 +28,8 @@ namespace HelloBooks.Models
 		[Display(Name = "Thumbnail")]
 		public string ThumbnailLink { get; set; }
 	
+		public virtual ICollection<Assignment> Assignments { get; set; }
+
 		public virtual ICollection<BookCategoryPair> Categories { get; set; }
 	}
 }

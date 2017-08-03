@@ -28,6 +28,7 @@ namespace HelloBooks.Tests.Controllers
 		private FakeApplciationDbContext dbContext;
 		private BooksController controller;
 
+		
 
 		[TestInitialize]
 		public  void Init()
@@ -46,11 +47,18 @@ namespace HelloBooks.Tests.Controllers
 			mock = new Mock<ControllerContext>();
 			mock.SetupGet(x => x.HttpContext.User.Identity.Name).Returns(principal.Identity.GetUserName);
 			mock.SetupGet(x => x.HttpContext.Request.IsAuthenticated).Returns(true);
-			
-			dbContext	= new FakeApplciationDbContext { Books = new FakeDbSet<Book>() };
-			controller = new BooksController(dbContext,principal);
-			controller.ControllerContext = mock.Object;
-			
+
+			dbContext = new FakeApplciationDbContext
+			{
+				Books = new FakeDbSet<Book>(),
+				ApplicationUsers = new FakeDbSet<ApplicationUser>()
+			};
+
+			controller = new BooksController(dbContext, principal)
+			{
+				ControllerContext = mock.Object
+			};
+
 		}
 
 		[TestMethod]
@@ -141,11 +149,41 @@ namespace HelloBooks.Tests.Controllers
 		public void BookDetailsReturnsView()
 		{
 			//Arrange
-			//var userStore = new Mock<IUserStore<ApplicationUser>>();
-			//var userManager = new UserManager<ApplicationUser>(userStore.Object);
-			dbContext.ApplicationUsers = new FakeDbSet<ApplicationUser>();
+			ApplicationUser user = new ApplicationUser()
+			{
+				Id = principal.Identity.GetUserId(),
+				Email = principal.Identity.GetUserName(),
+				UserName = principal.Identity.GetUserName(),
+				FirstName = "User",
+				LastName = "Name"
+			};
+			dbContext.ApplicationUsers.Add(user);
 
+			Book book = new Book()
+			{
+				Id = 1,
+				User = user,
+				ApplicationUserId = principal.Identity.GetUserId(),
+				Title = "Thing Explainer",
+				Isbn = "9780544668256",
+				TotalPageCount = 64,
+				ThumbnailLink = "http://books.google.com/books/content?id=T5xXrgEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+				
+			}; 
+			dbContext.Books.Add(book);
 			
+
+			//Act
+			ViewResult result = controller.Details(1) as ViewResult;
+
+			//Assert
+			Assert.IsNotNull(result);
+			//Assert.AreEqual(1,1);
+		}
+
+		[TestMethod]
+		public void BookEditReturnsView()
+		{
 			ApplicationUser user = new ApplicationUser()
 			{
 				Id = principal.Identity.GetUserId(),
@@ -167,14 +205,12 @@ namespace HelloBooks.Tests.Controllers
 				ThumbnailLink = "http://books.google.com/books/content?id=T5xXrgEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
 			};
 			dbContext.Books.Add(book);
-			
 
 			//Act
-			ViewResult result = controller.Details(1) as ViewResult;
+			ViewResult result = controller.Edit(1) as ViewResult;
 
 			//Assert
 			Assert.IsNotNull(result);
-			//Assert.AreEqual(1,1);
 		}
 	}
 }

@@ -23,9 +23,6 @@
 			<th>
 				@Html.DisplayNameFor(model => model.TotalPageCount)
 			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.DoneWithBook)
-			</th>
 			<th></th>
 		</tr>
 
@@ -46,14 +43,12 @@
 					@Html.DisplayFor(modelItem => item.TotalPageCount)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.DoneWithBook)
-				</td>
-				<td>
 					@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
 					@Html.ActionLink("Details", "Details", new { id = item.Id }) |
 					@Html.ActionLink("Delete", "Delete", new { id = item.Id })
 				</td>
 			</tr>
 		}
-
-	</table>
+	
+		
+</table>

@@ -14,50 +14,56 @@ using System.Security.Principal;
 
 namespace HelloBooks.Controllers
 {
-    public class AssignmentsController : Controller
-    {
-        private IApplicationDbContext db;
-        private IPrincipal principal;
+	public class AssignmentsController : Controller
+	{
+		private IApplicationDbContext db;
+		private IPrincipal principal;
 
-        public AssignmentsController()
-        {
-            db = new ApplicationDbContext();
-            principal = System.Web.HttpContext.Current.User;
-        }
+		public AssignmentsController()
+		{
+			db = new ApplicationDbContext();
+			principal = System.Web.HttpContext.Current.User;
+		}
 
-        public AssignmentsController(IApplicationDbContext dbContext)
-        {
-            db = dbContext;
-            principal = System.Web.HttpContext.Current.User;
-        }
+		public AssignmentsController(IApplicationDbContext dbContext)
+		{
+			db = dbContext;
+			principal = System.Web.HttpContext.Current.User;
+		}
 
-        public AssignmentsController(IApplicationDbContext dbContext, IPrincipal principal)
-        {
-            db = dbContext;
-            this.principal = principal;
-        }
+		public AssignmentsController(IApplicationDbContext dbContext, IPrincipal principal)
+		{
+			db = dbContext;
+			this.principal = principal;
+		}
 
-	    [HttpGet]
-	    public ActionResult AddNewAssignment(int? bookId)
-	    {
-		    Book book = db.Books.First(c => c.Id == bookId);
-				Assignment newAssignment = new Assignment()
-				{
-					Book = book
-				};
-		    return PartialView("_newAssignmentPartial");
-	    }
 
-	    [HttpPost]
-	    [ValidateAntiForgeryToken]
-	    public ActionResult NewAssignment([Bind(Include = "AssignmentName,DueDate,Book,ReadingDifficulty")]Assignment newAssignment)
-	    {
-		    Book book = db.Books.First(c => c.Id == newAssignment.Book.Id);
-		    //newAssignment.Book = book;
-				book.Assignments.Add(newAssignment);
-		    db.SaveChanges();
-		    return RedirectToAction("Details", "Books", book.Id);
-	    }
+
+
+
+		[HttpGet]
+		public ActionResult AddNewAssignment(int? bookId)
+		{
+			Book book = db.Books.First(c => c.Id == bookId);
+			Assignment newAssignment = new Assignment()
+			{
+				Book = book
+			};
+			return PartialView("_newAssignmentPartial");
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult NewAssignment([Bind(Include = "AssignmentName,DueDate,BookId,Difficulties")]Assignment newAssignment)
+		{
+			Book book = db.Books.First(c => c.Id == newAssignment.BookId);
+			//newAssignment.Book = book;
+			newAssignment.Book = book;
+			newAssignment.ReadingDifficultyId = newAssignment.Difficulties.SelectedReadingDifficultyId;
+			book.Assignments.Add(newAssignment);
+			db.SaveChanges();
+			return RedirectToAction("Details", "Books", newAssignment.BookId);
+		}
 
 		//// GET: Assignments
 		//public ActionResult Index()

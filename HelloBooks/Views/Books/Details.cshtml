@@ -121,7 +121,10 @@
 		</tr>
 
 									}
-	@{Assignment newAssignment = new Assignment(){Book=Model};}
+	@{
+		Assignment newAssignment = new Assignment {Book = Model, BookId = Model.Id};
+	}
+
 	@Html.Partial("../Assignments/_newAssignmentPartial", newAssignment)
 	@* Modify due date to accept due time as well *@
 </table>

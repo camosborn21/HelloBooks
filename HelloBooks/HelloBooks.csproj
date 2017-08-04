@@ -242,6 +242,18 @@
     <Compile Include="Migrations\201708030021092_AssignmentsAddedToBooks.Designer.cs">
       <DependentUpon>201708030021092_AssignmentsAddedToBooks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708040716323_AddedParentIdToChildClasses.cs" />
+    <Compile Include="Migrations\201708040716323_AddedParentIdToChildClasses.Designer.cs">
+      <DependentUpon>201708040716323_AddedParentIdToChildClasses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708040725451_ApplicationUserIdIsString.cs" />
+    <Compile Include="Migrations\201708040725451_ApplicationUserIdIsString.Designer.cs">
+      <DependentUpon>201708040725451_ApplicationUserIdIsString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708040826095_AddedReadingDifficultiesToUser.cs" />
+    <Compile Include="Migrations\201708040826095_AddedReadingDifficultiesToUser.Designer.cs">
+      <DependentUpon>201708040826095_AddedReadingDifficultiesToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUserAccountTypes.cs" />
@@ -249,6 +261,7 @@
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\BookPropertyTypes.cs" />
+    <Compile Include="Models\DropDownListViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ReadingAvailability.cs" />
@@ -414,6 +427,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708030021092_AssignmentsAddedToBooks.resx">
       <DependentUpon>201708030021092_AssignmentsAddedToBooks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708040716323_AddedParentIdToChildClasses.resx">
+      <DependentUpon>201708040716323_AddedParentIdToChildClasses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708040725451_ApplicationUserIdIsString.resx">
+      <DependentUpon>201708040725451_ApplicationUserIdIsString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708040826095_AddedReadingDifficultiesToUser.resx">
+      <DependentUpon>201708040826095_AddedReadingDifficultiesToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

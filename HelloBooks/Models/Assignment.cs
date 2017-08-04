@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace HelloBooks.Models
 {
@@ -13,8 +14,37 @@ namespace HelloBooks.Models
 		[Required]
 		public virtual Book Book { get; set; }
 
+		[Required]
+		public int BookId { get; set; }
+
 		[Display(Name =  "Reading Difficulty")]
 		public virtual ReadingDifficulty ReadingDifficulty { get; set; }
+
+		public int ReadingDifficultyId { get; set; }
+
+		public IEnumerable<SelectListItem> GetReadingDifficulties(string UserId)
+		{
+
+			IList<ReadingDifficulty> difficulties = Book.User.UserDefinedReadingDifficulties.Where(c => c.ApplicationUserId == UserId).ToList();
+			var list = difficulties.Select(x => new SelectListItem
+			{
+				Value = x.Id.ToString(),
+				Text = x.PagesPerHour.ToString()
+
+			});
+			return new SelectList(list, "Value", "Text");
+		}
+
+		public ReadingDifficultiesDropDownListViewModel Difficulties
+		{
+			get
+			{
+				return new ReadingDifficultiesDropDownListViewModel
+				{
+					ReadingDifficulties = GetReadingDifficulties(Book.ApplicationUserId)
+				};
+			}
+		}
 
 		[Display(Name = "Assignment Name")]
 		public string AssignmentName { get; set; }
@@ -36,6 +66,8 @@ namespace HelloBooks.Models
 
 		[Required]
 		public virtual Assignment Assignment{ get; set; }
+		[Required]
+		public int AssignmentId { get; set; }
 
 		[Required]
 		[Display(Name = "Starting Page")]
@@ -52,6 +84,10 @@ namespace HelloBooks.Models
 
 		[Required]
 		public virtual Assignment Assignment { get; set; }
+
+		[Required]
+		public int AssignmentId { get; set; }
+
 
 		[Required]
 		[Display(Name = "Starting Page")]

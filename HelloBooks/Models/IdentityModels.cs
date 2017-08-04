@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace HelloBooks.Models
 
 		public virtual AppUserAccountTypes AppUserAccountType { get; set; }
 
+		public virtual ICollection<ReadingDifficulty> UserDefinedReadingDifficulties { get; set; }
 
 		public string GoogleCalendarId { get; set; }
 

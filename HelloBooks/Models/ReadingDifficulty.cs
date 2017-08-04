@@ -10,7 +10,7 @@ namespace HelloBooks.Models
 	{
 		public int Id { get; set; }
 		public virtual ApplicationUser User { get; set; }
-
+		public string ApplicationUserId { get; set; }
 		[Display(Name = "Pages Per Hour")]
 		public int PagesPerHour { get; set; }
 	}

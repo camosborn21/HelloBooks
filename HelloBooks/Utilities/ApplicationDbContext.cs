@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using HelloBooks.Models;
+using Microsoft.Owin.Security;
 
 namespace HelloBooks.Utilities
 {
@@ -19,7 +20,7 @@ namespace HelloBooks.Utilities
 		IDbSet<BookCategory> BookCategories { get; set; }
 		IDbSet<BookPropertyType> BookPropertyTypes { get; set; }
 		IDbSet<BookProperty> BookProperties { get; set; }
-
+		IDbSet<ReadingDifficulty> ReadingDifficulties { get; set; }
 		int SaveChanges();
 	}
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
@@ -52,6 +53,7 @@ namespace HelloBooks.Utilities
 		public IDbSet<BookCategory> BookCategories { get; set; }
 		public IDbSet<BookPropertyType> BookPropertyTypes { get; set; }
 		public IDbSet<BookProperty> BookProperties{ get; set; }
+		public IDbSet<ReadingDifficulty> ReadingDifficulties { get; set; }
 		//public System.Data.Entity.DbSet<HelloBooks.Models.ApplicationUser> ApplicationUsers { get; set; }
 	}
 
@@ -71,6 +73,7 @@ namespace HelloBooks.Utilities
 		public IDbSet<BookCategory> BookCategories { get; set; }
 		public IDbSet<BookPropertyType> BookPropertyTypes { get; set; }
 		public IDbSet<BookProperty> BookProperties { get; set; }
+		public IDbSet<ReadingDifficulty> ReadingDifficulties { get; set; }
 		public IDbSet<HelloBooks.Models.ApplicationUser> ApplicationUsers { get; set; }
 	}
 }

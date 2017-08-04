@@ -2,18 +2,40 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HelloBooks.Models;
 using HelloBooks.Utilities;
+using Microsoft.AspNet.Identity;
+using System.Security.Principal;
 
 namespace HelloBooks.Controllers
 {
     public class AssignmentsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IApplicationDbContext db;
+        private IPrincipal principal;
+
+        public AssignmentsController()
+        {
+            db = new ApplicationDbContext();
+            principal = System.Web.HttpContext.Current.User;
+        }
+
+        public AssignmentsController(IApplicationDbContext dbContext)
+        {
+            db = dbContext;
+            principal = System.Web.HttpContext.Current.User;
+        }
+
+        public AssignmentsController(IApplicationDbContext dbContext, IPrincipal principal)
+        {
+            db = dbContext;
+            this.principal = principal;
+        }
 
 	    [HttpGet]
 	    public ActionResult AddNewAssignment(int? bookId)

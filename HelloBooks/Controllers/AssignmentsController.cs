@@ -54,15 +54,18 @@ namespace HelloBooks.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult NewAssignment([Bind(Include = "AssignmentName,DueDate,BookId,Difficulties")]Assignment newAssignment)
+		public ActionResult NewAssignment([Bind(Include = "AssignmentName,DueDate,BookId,ReadingDifficultyId")]Assignment newAssignment)
 		{
+			//Difficulties_SelectedReadingDifficultyId
 			Book book = db.Books.First(c => c.Id == newAssignment.BookId);
 			//newAssignment.Book = book;
 			newAssignment.Book = book;
-			newAssignment.ReadingDifficultyId = newAssignment.Difficulties.SelectedReadingDifficultyId;
+			ReadingDifficulty readingDifficulty = db.ReadingDifficulties.First(c => c.Id == newAssignment.ReadingDifficultyId);
+			//newAssignment.ReadingDifficultyId = newAssignment.Difficulties.SelectedReadingDifficultyId;
 			book.Assignments.Add(newAssignment);
 			db.SaveChanges();
-			return RedirectToAction("Details", "Books", newAssignment.BookId);
+			return RedirectToAction("Details", "Books", new {id = newAssignment.BookId});
+			
 		}
 
 		//// GET: Assignments

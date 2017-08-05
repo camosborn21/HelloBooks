@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using HelloBooks.Utilities;
 
 namespace HelloBooks.Models
 {
@@ -25,12 +26,12 @@ namespace HelloBooks.Models
 		public IEnumerable<SelectListItem> GetReadingDifficulties(string UserId)
 		{
 
-			IList<ReadingDifficulty> difficulties = Book.User.UserDefinedReadingDifficulties.Where(c => c.ApplicationUserId == UserId).ToList();
+			IList<ReadingDifficulty> difficulties = Book.User.UserDefinedReadingDifficulties.Where(c => c.ApplicationUserId == UserId).OrderBy(m=>m.Id).ToList();
 			var list = difficulties.Select(x => new SelectListItem
 			{
 				Value = x.Id.ToString(),
-				Text = x.PagesPerHour.ToString()
-
+				Text = x.PagesPerHour.ToString(),
+				Selected = true
 			});
 			return new SelectList(list, "Value", "Text");
 		}
@@ -39,6 +40,14 @@ namespace HelloBooks.Models
 		{
 			get
 			{
+				if (Book == null)
+				{
+					if (BookId != 0)
+					{
+						IApplicationDbContext db = new ApplicationDbContext();
+						Book = db.Books.First(c => c.Id == BookId);
+					}
+				}
 				return new ReadingDifficultiesDropDownListViewModel
 				{
 					ReadingDifficulties = GetReadingDifficulties(Book.ApplicationUserId)

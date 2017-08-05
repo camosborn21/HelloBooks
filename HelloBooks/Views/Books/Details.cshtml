@@ -6,130 +6,183 @@
 	ViewBag.Title = "Details";
 }
 
-<script>
-	$(function () { $("#DueDate").datepicker(); });
-</script>
+@section ViewScripts
+{
+	<script>
+		$(function () {
+			$("#DueDatePicker").datepicker();
+		})
+	</script>
+}
+
 <h2>Details</h2>
 
-<div>
-	<h4>Book</h4>
-	<hr />
-	<dl class="dl-horizontal">
-		<dt>
-			@Html.DisplayNameFor(model => model.User.FirstName)
-		</dt>
+<div class="col-sm-12">
+	<div class="col-sm-2">
+		<img src="@Model.ThumbnailLink" />
+	</div>
+	<div class="col-sm-10">
+		<h4>@Html.DisplayFor(model => model.Title)</h4>
+		<p>@Html.DisplayFor(model => model.Isbn)</p>
+		<p>@Html.DisplayNameFor(model => model.TotalPageCount): @Html.DisplayFor(model => model.TotalPageCount)</p>
+	</div>
 
-		<dd>
-			@Html.DisplayFor(model => model.User.FirstName)
-		</dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.Title)
-		</dt>
-		<dd>
-			@Html.DisplayFor(model => model.Title)
-		</dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.Isbn)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.Isbn)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.TotalPageCount)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.TotalPageCount)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.DoneWithBook)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.DoneWithBook)
-		</dd>
-
-	</dl>
 </div>
-<h4>Assignments</h4>
-<table class="table" id="assignmentsTable">
-	<tr>
-		<th>Assignment Name</th>
-		<th>Due Date</th>
-		<th>Pages Per Hour</th>
-		<th></th>
-	</tr>
-	@foreach (var item in Model.Assignments)
-	{
-		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.AssignmentName)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.DueDate)
-			</td>
-			<td>
-				@if (item.ModifiedPagesPerHour > 0)
+<hr />
+<div class="col-sm-12">
+	<h4>Assignments</h4>
+	<table class="table" id="assignmentsTable">
+
+		@foreach (var item in Model.Assignments.OrderBy(m => m.DueDate))
+		{
+
+			<tr>
+				<th>Assignment Name</th>
+				<th>Due Date</th>
+				<th>Pages Per Hour</th>
+				<th></th>
+			</tr>
+
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.AssignmentName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.DueDate)
+					</td>
+					<td>
+						@if (item.ModifiedPagesPerHour > 0)
 				{
-					@Html.DisplayFor(modelItem => item.ModifiedPagesPerHour)
+							@Html.DisplayFor(modelItem => item.ModifiedPagesPerHour)
 				}
 				else
 				{
-					@Html.DisplayFor(modelItem => item.ReadingDifficulty.PagesPerHour)
+							@Html.DisplayFor(modelItem => item.ReadingDifficulty.PagesPerHour)
 				}
-			</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td colspan="3">
-				<table class="table">
-					<tr>
-						<th>Start at</th>
-						<th>Finish at</th>
-						<th>Pages remaining</th>
-						<th></th>
-					</tr>
-					@foreach (var reading in item.Pages)
-					{
+					</td>
+				</tr>
+			<tr>
+				<td style="vertical-align: middle ;text-align: center">Required Reading</td>
+				<td colspan="3">
+					<table class="table">
 
 						<tr>
-							<td>
-								@Html.DisplayFor(readingItem => reading.StartPage)
-							</td>
-							<td>
-								@Html.DisplayFor(readingItem => reading.LastPage)
-							</td>
-							<td>
-								@{ int pagesRemaining = reading.LastPage - reading.StartPage;}
-								@Html.DisplayFor(c => pagesRemaining)
-							</td>
-							<td><a href="" class="btn btn-default" style="padding:5px"><span class="glyphicon-pencil"></span> Record Progress</a></td>
+							<th>Start at</th>
+							<th>Finish at</th>
+							<th>Pages remaining</th>
+							
 						</tr>
-									}
-					<tr>
-						<td colspan="4">
-							<a href="" class="btn btn-default" style="padding: 5px"><span class="glyphicon-plus"></span> Add Required Reading</a>
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
 
-									}
-	@{
-		Assignment newAssignment = new Assignment {Book = Model, BookId = Model.Id};
-	}
+						@foreach (var reading in item.Pages)
+						{
 
-	@Html.Partial("../Assignments/_newAssignmentPartial", newAssignment)
-	@* Modify due date to accept due time as well *@
-</table>
+							<tr>
+								<td>
+									@Html.DisplayFor(readingItem => reading.StartPage)
+								</td>
+								<td>
+									@Html.DisplayFor(readingItem => reading.LastPage)
+								</td>
+								<td>
+									@{ int pagesRemaining = reading.LastPage - reading.StartPage;}
+									@Html.DisplayFor(c => pagesRemaining)
+								</td>
+								
+							</tr>
+						}
+						<tr>
+							<td colspan="4">
+								<a href="" class="btn btn-default" style="padding: 5px"><span class="glyphicon-plus"></span> Add Required Reading</a>
+							</td>
+						</tr>
+							
+
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td style="vertical-align: middle;text-align: center">Reading Completed</td>
+				<td colspan="3">
+					<table class="table">
+						<tr>
+							<th>
+								Read from
+							</th>
+							<th>
+								until
+							</th>
+							<th>
+								totalling
+							</th>
+						</tr>
+						@foreach (var progress in item.Reading)
+						{
+							<tr>
+								<td>
+									
+									@Html.DisplayFor(progressItem=>progress.StartDateTime)
+								</td>
+								<td>
+									
+									@Html.DisplayFor(progressItem => progress.EndDateTime)
+								</td>
+								<td>
+									
+									@{ TimeSpan timeRead = progress.EndDateTime - progress.StartDateTime;}
+									@Html.DisplayFor(c=>timeRead.Hours + " hours "  + timeRead.Minutes + " minutes")
+								</td>
+							</tr>
+						}
+						<tr>
+							<th>
+								Started on page
+							</th>
+							<th>
+								Finshed on page
+							</th>
+							<th>
+								totalling
+							</th>
+						</tr>
+						@foreach (var pageProgress in item.Reading)
+						{
+							<tr>
+								<td>
+									
+									@Html.DisplayFor(pageProgressItem=>pageProgress.StartPage)
+								</td>
+								<td>
+									
+									@Html.DisplayFor(pageProgressItem => pageProgress.FinishPage)
+								</td>
+								<td>
+									@{ int pagesRead = pageProgress.FinishPage - pageProgress.StartPage; }
+									@Html.DisplayFor(c=>pagesRead)
+								</td>
+							</tr>
+						}
+						<tr>
+							<td colspan="4">
+								<a href="" class="btn btn-default" style="padding: 5px"><span class="glyphicon-plus"></span> Add Reading Progress</a>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
 
 
+											}
+		@{
+			Assignment newAssignment = new Assignment { Book = Model, BookId = Model.Id };
+		}
+
+		@Html.Partial("../Assignments/_newAssignmentPartial", newAssignment)
+		@* Modify due date to accept due time as well *@
+	</table>
+
+</div>
 
 <p>
 	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

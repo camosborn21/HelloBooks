@@ -24,3 +24,18 @@ textarea {
 }
 
 
+.responsive-stacked-table thead {
+	display: none;
+}
+.responsive-stacked-table tr,
+.responsive-stacked-table th,
+.responsive-stacked-table td {
+	display: block;
+}
+.responsive-stacked-table td {
+	border-top: none;
+}
+.responsive-stacked-table tr td:first-child {
+	border-top: 1px solid #ddd;
+	font-weight: bold;
+}

@@ -268,9 +268,11 @@
     <Compile Include="Models\ReadingDifficulty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\AddNewXLoaders.cs" />
     <Compile Include="Utilities\ApplicationDbContext.cs" />
     <Compile Include="Utilities\FakeDbSet.cs" />
     <Compile Include="Utilities\IsbnLookup.cs" />
+    <Compile Include="Utilities\ScriptAssemblyHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -439,6 +441,8 @@
     <Content Include="Views\Assignments\Edit.cshtml" />
     <Content Include="Views\Assignments\Index.cshtml" />
     <Content Include="Views\Assignments\_newAssignmentPartial.cshtml" />
+    <Content Include="Views\Assignments\_newRequiredReadingPartial.cshtml" />
+    <Content Include="Views\Assignments\_newReadingProgressPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

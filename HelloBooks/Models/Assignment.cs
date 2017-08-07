@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Web;
 using System.Web.Mvc;
 using HelloBooks.Utilities;
@@ -67,6 +68,8 @@ namespace HelloBooks.Models
 		public virtual ICollection<RequiredPages> Pages { get; set; }
 
 		public virtual ICollection<ReadingProgress> Reading { get; set; }
+
+		
 	}
 
 	public class RequiredPages
@@ -113,6 +116,34 @@ namespace HelloBooks.Models
 		[Required]
 		[Display(Name = "Ending Date and Time")]
 		public DateTime EndDateTime { get; set; }
+
+
+		public string GetTimeSpentReading(ReadingProgress progress)
+		{
+			string result;
+			TimeSpan timeRead = progress.EndDateTime - progress.StartDateTime;
+			switch (timeRead.Hours)
+			{
+				case 1:
+					result = "1 hour";
+					break;
+				default:
+					result = timeRead.Hours + " hours";
+					break;
+			}
+			switch (timeRead.Minutes)
+			{
+				case 0:
+					break;
+				case 1:
+					result = result + " 1 minute";
+					break;
+				default:
+					result = result + " " + timeRead.Minutes + " minutes";
+					break;
+			}
+			return result;
+		}
 
 	}
 }

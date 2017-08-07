@@ -12,9 +12,9 @@
 	@RenderSection("scripts", required: false)
 
 	@Scripts.Render("~/bundles/modernizr")
-	
+
 	@RenderSection("ViewScripts", false)
-	<link rel="stylesheet" href="~/Content/font_awesome_4_7_0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="~/Content/font_awesome_4_7_0/css/font-awesome.min.css" />
 	<link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css" />
 
 </head>
@@ -47,7 +47,7 @@
 		</footer>
 	</div>
 
-
+	@RenderSection("ActionScripts", false)
 
 </body>
 </html>

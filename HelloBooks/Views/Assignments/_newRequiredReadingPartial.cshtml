@@ -1,0 +1,32 @@
+﻿@using HelloBooks.Models
+@model HelloBooks.Models.RequiredPages
+	
+<tr>
+	<td colspan="3"><h4>Add Required Pages</h4></td>
+</tr>
+<tr>
+	<th>
+		Start on Page
+	</th>
+	<th>
+		End on Page
+	</th>
+	<th></th>
+</tr>
+<tr>
+	@using (Html.BeginForm("NewRequiredReading", "Assignments"))
+	{
+		@Html.AntiForgeryToken()
+		@Html.ValidationSummary(true,"",new {@class="text-danger"})
+		@Html.HiddenFor(model=>model.AssignmentId,new {htmlAttibutes = new {@Value = Model.AssignmentId}})
+		<td>
+			@Html.EditorFor(model=>model.StartPage, new { htmlAttributes = new { @class = "form-control" }})
+		</td>
+		<td>
+			@Html.EditorFor(model=>model.LastPage, new { htmlAttributes = new {@class = "form-control"}})
+		</td>
+		<td>
+			<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-ok"></span></button>
+		</td>
+	}
+</tr>

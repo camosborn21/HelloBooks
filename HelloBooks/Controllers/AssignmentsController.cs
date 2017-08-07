@@ -41,31 +41,55 @@ namespace HelloBooks.Controllers
 
 
 
-		[HttpGet]
-		public ActionResult AddNewAssignment(int? bookId)
-		{
-			Book book = db.Books.First(c => c.Id == bookId);
-			Assignment newAssignment = new Assignment()
-			{
-				Book = book
-			};
-			return PartialView("_newAssignmentPartial");
-		}
+		//[HttpGet]
+		//public ActionResult AddNewAssignment(int? bookId)
+		//{
+		//	Book book = db.Books.First(c => c.Id == bookId);
+		//	Assignment newAssignment = new Assignment()
+		//	{
+		//		Book = book
+		//	};
+		//	return PartialView("_newAssignmentPartial");
+		//}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult NewAssignment([Bind(Include = "AssignmentName,DueDate,BookId,ReadingDifficultyId")]Assignment newAssignment)
 		{
-			//Difficulties_SelectedReadingDifficultyId
+			
 			Book book = db.Books.First(c => c.Id == newAssignment.BookId);
-			//newAssignment.Book = book;
+			
 			newAssignment.Book = book;
 			ReadingDifficulty readingDifficulty = db.ReadingDifficulties.First(c => c.Id == newAssignment.ReadingDifficultyId);
-			//newAssignment.ReadingDifficultyId = newAssignment.Difficulties.SelectedReadingDifficultyId;
+			
 			book.Assignments.Add(newAssignment);
 			db.SaveChanges();
 			return RedirectToAction("Details", "Books", new {id = newAssignment.BookId});
 			
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult NewRequiredReading([Bind(Include = "StartPage,LastPage,AssignmentId")]RequiredPages newReading)
+		{
+			Assignment assignment = db.Assignments.First(c => c.Id == newReading.AssignmentId);
+			newReading.Assignment = assignment;
+			assignment.Pages.Add(newReading);
+			db.SaveChanges();
+			return RedirectToAction("Details", "Books", new {id = assignment.BookId});
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult NewReadingProgress(
+			[Bind(Include = "AssignmentId,StartPage,FinishPage,StartDateTime,EndDateTime")] ReadingProgress newProgress)
+		{
+			Assignment assignment = db.Assignments.First(c => c.Id == newProgress.AssignmentId);
+			newProgress.Assignment = assignment;
+			assignment.Reading.Add(newProgress);
+			db.SaveChanges();
+			return RedirectToAction("Details", "Books", new {id = assignment.BookId});
+
 		}
 
 		//// GET: Assignments

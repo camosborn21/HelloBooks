@@ -1,5 +1,6 @@
 ﻿@using HelloBooks.Controllers
 @using HelloBooks.Models
+@using HelloBooks.Utilities
 @model HelloBooks.Models.Book
 
 @{
@@ -11,14 +12,17 @@
 	<script>
 		$(function () {
 			$("#DueDatePicker").datepicker();
-		})
+		});
 	</script>
 }
 
+@{
+	List<string> scriptHtmlStrings = new List<string>();
+}
 <h2>Details</h2>
 
 <div class="col-sm-12">
-	<div class="col-sm-2">
+	<div class="col-md-2">
 		<img src="@Model.ThumbnailLink" />
 	</div>
 	<div class="col-sm-10">
@@ -45,141 +49,219 @@
 				<th></th>
 			</tr>
 
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.AssignmentName)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.DueDate)
-					</td>
-					<td>
-						@if (item.ModifiedPagesPerHour > 0)
-				{
-							@Html.DisplayFor(modelItem => item.ModifiedPagesPerHour)
-				}
-				else
-				{
-							@Html.DisplayFor(modelItem => item.ReadingDifficulty.PagesPerHour)
-				}
-					</td>
-				</tr>
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.AssignmentName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DueDate)
+				</td>
+				<td>
+					@(item.ModifiedPagesPerHour > 0 ? Html.DisplayFor(modelItem => item.ModifiedPagesPerHour) : Html.DisplayFor(modelItem => item.ReadingDifficulty.PagesPerHour))
+				</td>
+			</tr>
 			<tr>
 				<td style="vertical-align: middle ;text-align: center">Required Reading</td>
 				<td colspan="3">
 					<table class="table">
+						@{
+							if (item.Pages.Count > 0)
+							{
+								<tr>
+									<th>Start at</th>
+									<th>Finish at</th>
+									<th>Pages remaining</th>
 
-						<tr>
-							<th>Start at</th>
-							<th>Finish at</th>
-							<th>Pages remaining</th>
-							
-						</tr>
+								</tr>
 
-						@foreach (var reading in item.Pages)
-						{
+								foreach (var reading in item.Pages)
+								{
 
-							<tr>
-								<td>
-									@Html.DisplayFor(readingItem => reading.StartPage)
-								</td>
-								<td>
-									@Html.DisplayFor(readingItem => reading.LastPage)
-								</td>
-								<td>
-									@{ int pagesRemaining = reading.LastPage - reading.StartPage;}
-									@Html.DisplayFor(c => pagesRemaining)
-								</td>
-								
-							</tr>
+									<tr>
+										<td>
+											@Html.DisplayFor(readingItem => reading.StartPage)
+										</td>
+										<td>
+											@Html.DisplayFor(readingItem => reading.LastPage)
+										</td>
+										<td>
+											@{ int pagesRemaining = reading.LastPage - reading.StartPage; }
+											@Html.DisplayFor(c => pagesRemaining)
+										</td>
+
+									</tr>
+													}
+												}
+												else
+												{
+													<tr>
+														<th>
+															No required reading has been generated for this assignment.
+														</th>
+													</tr>
+												}}
+						@{
+							string uid = Guid.NewGuid().ToString();
+							string showTableRow = "showNewReadingProgressTableRow" + uid;
+							string showButton = "showNewReadingProgressButton" + uid;
+							string newDisplayTable = "newProgressTable" + uid;
+							scriptHtmlStrings.Add(new AddNewXLoaders().GetButtonManagementString(showButton, showTableRow, newDisplayTable));
 						}
-						<tr>
+
+						<tr id="@showTableRow">
 							<td colspan="4">
-								<a href="" class="btn btn-default" style="padding: 5px"><span class="glyphicon-plus"></span> Add Required Reading</a>
+								<button id="@showButton" class="btn btn-default" style="padding: 5px"><span class="glyphicon-plus"></span> Add Required Reading</button>
 							</td>
 						</tr>
-							
+
+						<tr id="@newDisplayTable" style="display: none">
+							<td colspan="4">
+								<table width="100%">
+									@*<tr>
+											<td>
+												Required Reading Partial View Goes Here
+											</td>
+										</tr>*@
+									@{
+										RequiredPages newRequiredPages = new RequiredPages { Assignment = item, AssignmentId = item.Id };
+									}
+									@Html.Partial("../Assignments/_newRequiredReadingPartial", newRequiredPages)
+								</table>
+							</td>
+						</tr>
+
+
 
 					</table>
 				</td>
 			</tr>
-			<tr>
-				<td style="vertical-align: middle;text-align: center">Reading Completed</td>
-				<td colspan="3">
-					<table class="table">
-						<tr>
-							<th>
-								Read from
-							</th>
-							<th>
-								until
-							</th>
-							<th>
-								totalling
-							</th>
-						</tr>
-						@foreach (var progress in item.Reading)
-						{
-							<tr>
-								<td>
-									
-									@Html.DisplayFor(progressItem=>progress.StartDateTime)
-								</td>
-								<td>
-									
-									@Html.DisplayFor(progressItem => progress.EndDateTime)
-								</td>
-								<td>
-									
-									@{ TimeSpan timeRead = progress.EndDateTime - progress.StartDateTime;}
-									@Html.DisplayFor(c=>timeRead.Hours + " hours "  + timeRead.Minutes + " minutes")
-								</td>
-							</tr>
-						}
-						<tr>
-							<th>
-								Started on page
-							</th>
-							<th>
-								Finshed on page
-							</th>
-							<th>
-								totalling
-							</th>
-						</tr>
-						@foreach (var pageProgress in item.Reading)
-						{
-							<tr>
-								<td>
-									
-									@Html.DisplayFor(pageProgressItem=>pageProgress.StartPage)
-								</td>
-								<td>
-									
-									@Html.DisplayFor(pageProgressItem => pageProgress.FinishPage)
-								</td>
-								<td>
-									@{ int pagesRead = pageProgress.FinishPage - pageProgress.StartPage; }
-									@Html.DisplayFor(c=>pagesRead)
-								</td>
-							</tr>
-						}
-						<tr>
-							<td colspan="4">
-								<a href="" class="btn btn-default" style="padding: 5px"><span class="glyphicon-plus"></span> Add Reading Progress</a>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+
+										{
+											if (item.Pages.Count > 0)
+											{
+												<tr>
+													<td style="vertical-align: middle;text-align: center">Reading Completed</td>
+													<td colspan="3">
+														<table class="table">
+															@{				if (item.Reading.Count > 0)
+																{
+
+																	foreach (var progress in item.Reading)
+																	{
+																		<tr>
+																			<th>
+																				Read from
+																			</th>
+																			<th>
+																				until
+																			</th>
+																			<th>
+																				totalling
+																			</th>
+																		</tr>
+																				<tr>
+																					<td>
+
+																						@Html.DisplayFor(progressItem => progress.StartDateTime)
+																					</td>
+																					<td>
+
+																						@Html.DisplayFor(progressItem => progress.EndDateTime)
+																					</td>
+																					<td>
+
+																						@*@{ TimeSpan timeRead = progress.EndDateTime - progress.StartDateTime; }
+																							@timeRead.Hours + " hours " + @timeRead.Minutes + " minutes"*@
+																						@{
+																							string progressDescriptor = new ReadingProgress().GetTimeSpentReading(progress);
+																							
+																						}
+																						@progressDescriptor
+
+																					</td>
+																				</tr>
+																				<tr>
+																					<th>
+																						Started on page
+																					</th>
+																					<th>
+																						Finshed on page
+																					</th>
+																					<th>
+																						totalling
+																					</th>
+																				</tr>
+																				<tr>
+																					<td>
+
+																						@Html.DisplayFor(pageProgressItem => progress.StartPage)
+																					</td>
+																					<td>
+
+																						@Html.DisplayFor(pageProgressItem => progress.FinishPage)
+																					</td>
+																					<td>
+																						@{ int pagesRead = progress.FinishPage - progress.StartPage; }
+																						@pagesRead
+																					</td>
+																				</tr>						}
+
+																							}
+																							else
+																							{
+																								<tr>
+																									<th>
+																										No reading has been completed for this assignment yet.
+																									</th>
+																								</tr>			}
+
+															}
+															@{				uid = Guid.NewGuid().ToString();
+																showTableRow = "showNewReadingProgressTableRow" + uid;
+																showButton = "showNewReadingProgressButton" + uid;
+																newDisplayTable = "newProgressTable" + uid;
+																scriptHtmlStrings.Add(new AddNewXLoaders().GetButtonManagementString(showButton, showTableRow, newDisplayTable));
+															}
+															<tr id="@showTableRow">
+																<td colspan="4">
+																	<button id="@showButton" class="btn btn-default" style="padding: 5px"><span class="glyphicon-plus"></span> Add Reading Progress</button>
+																</td>
+															</tr>
+
+															<tr id="@newDisplayTable" style="display:none">
+																<td colspan="4">
+																	<table width="100%">
+																		@{				ReadingProgress newProgress = new ReadingProgress { Assignment = item, AssignmentId = item.Id };
+																		}
+																		@Html.Partial("../Assignments/_newReadingProgressPartial", newProgress)
+																	</table>
+																</td>
+															</tr>
 
 
-											}
+														</table>
+													</td>
+												</tr>							}
+																				}
+																			}
 		@{
 			Assignment newAssignment = new Assignment { Book = Model, BookId = Model.Id };
 		}
 
-		@Html.Partial("../Assignments/_newAssignmentPartial", newAssignment)
-		@* Modify due date to accept due time as well *@
+
+		<tr id="showNewAssignmentPartialTableRow">
+			<td colspan="4">
+				<button id="showNewAssignmentPartial" class="btn btn-default" style="padding: 5px"><span class="glyphicon-plus"></span> Add New Assignment</button>
+			</td>
+		</tr>
+
+		<tr id="newAssignmentTable" style="display: none">
+			<td colspan="4">
+				<table width="100%">
+					@Html.Partial("../Assignments/_newAssignmentPartial", newAssignment)
+				</table>
+			</td>
+		</tr>
 	</table>
 
 </div>
@@ -188,3 +270,31 @@
 	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
 	@Html.ActionLink("Back to List", "Index")
 </p>
+@section ActionScripts{
+
+	@*@Html.RenderResources("ShowPartialsAction")*@
+	@*<script>
+			$('#showNewReadingProgressButton').on('click',
+				function() {
+					$('#newProgressTable').show("fade", 1000);
+					$('#showNewReadingProgressTableRow').hide();
+				});
+		</script>*@
+
+	<script>
+		@foreach (var strHtmlString in scriptHtmlStrings)
+		{
+			@Html.Raw(strHtmlString);
+		}
+
+
+
+		$("#showNewAssignmentPartial").on("click",
+			function () {
+				$("#newAssignmentTable").show("fade", 1000);
+				$("#showNewAssignmentPartialTableRow").hide();
+			});
+
+
+	</script>
+}

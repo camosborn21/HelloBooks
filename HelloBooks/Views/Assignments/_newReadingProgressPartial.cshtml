@@ -1,0 +1,51 @@
+﻿@using HelloBooks.Models
+@model HelloBooks.Models.ReadingProgress
+
+<tr>
+	<td colspan="3">Record Reading Progress</td>
+</tr>
+@using (Html.BeginForm("NewReadingProgress", "Assignments"))
+{
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+	@Html.HiddenFor(model => model.AssignmentId, new { htmlAttributes = new { @Value = Model.AssignmentId } })
+	<tr>
+		<th>
+			Start Time
+		</th>
+		<th>
+			End Time
+		</th>
+		<th></th>
+	</tr>
+	<tr>
+		<td>
+			@Html.EditorFor(model => model.StartDateTime, new { htmlAttributes = new { @class = "form-control" } })
+		</td>
+		<td>
+			@Html.EditorFor(model=>model.EndDateTime, new {htmlAttributes = new {@class="form-control", @Value = DateTime.Now}})
+		</td>
+		<td></td>
+	</tr>
+	<tr>
+		<th>
+			Starting Page
+		</th>
+		<th>
+			Finishing Page
+		</th>
+		<th></th>
+	</tr>
+	<tr>
+		<td>
+			@Html.EditorFor(model=>model.StartPage, new {htmlAttributes = new { @class="form-control"}})
+		</td>
+		<td>
+			@Html.EditorFor(model=>model.FinishPage, new { htmlAttributes = new {@class="form-control"}})
+		</td>
+		<td>
+			<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-ok"></span></button>
+		</td>
+	</tr>
+
+}

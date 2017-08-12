@@ -60,11 +60,17 @@
     <Reference Include="Google.Apis.Books.v1, Version=1.28.0.802, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.Books.v1.1.28.0.802\lib\net45\Google.Apis.Books.v1.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Apis.Calendar.v3, Version=1.28.0.934, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Calendar.v3.1.28.0.934\lib\net45\Google.Apis.Calendar.v3.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Apis.Core, Version=1.28.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.Core.1.28.0\lib\net45\Google.Apis.Core.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis.PlatformServices, Version=1.28.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.28.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Kentor.OwinCookieSaver, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Kentor.OwinCookieSaver.1.1.1\lib\net452\Kentor.OwinCookieSaver.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
@@ -270,6 +276,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\AddNewXLoaders.cs" />
     <Compile Include="Utilities\ApplicationDbContext.cs" />
+    <Compile Include="Utilities\SystemWebCookieManager.cs" />
+    <Compile Include="Utilities\UserCalendarService.cs" />
     <Compile Include="Utilities\FakeDbSet.cs" />
     <Compile Include="Utilities\IsbnLookup.cs" />
     <Compile Include="Utilities\ScriptAssemblyHelper.cs" />
@@ -506,8 +514,7 @@
           <IISUrl>http://localhost:49698/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <CustomServerUrl>http://www.hellobooks.io</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

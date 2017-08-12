@@ -24,37 +24,37 @@ namespace HelloBooks.Models
 
 		public int ReadingDifficultyId { get; set; }
 
-		public IEnumerable<SelectListItem> GetReadingDifficulties(string UserId)
-		{
+		//public IEnumerable<SelectListItem> GetReadingDifficulties(string UserId)
+		//{
 
-			IList<ReadingDifficulty> difficulties = Book.User.UserDefinedReadingDifficulties.Where(c => c.ApplicationUserId == UserId).OrderBy(m=>m.Id).ToList();
-			var list = difficulties.Select(x => new SelectListItem
-			{
-				Value = x.Id.ToString(),
-				Text = x.PagesPerHour.ToString(),
-				Selected = true
-			});
-			return new SelectList(list, "Value", "Text");
-		}
+		//	IList<ReadingDifficulty> difficulties = Book.User.UserDefinedReadingDifficulties.Where(c => c.ApplicationUserId == UserId).OrderBy(m=>m.Id).ToList();
+		//	var list = difficulties.Select(x => new SelectListItem
+		//	{
+		//		Value = x.Id.ToString(),
+		//		Text = x.PagesPerHour.ToString(),
+		//		Selected = true
+		//	});
+		//	return new SelectList(list, "Value", "Text");
+		//}
 
-		public ReadingDifficultiesDropDownListViewModel Difficulties
-		{
-			get
-			{
-				if (Book == null)
-				{
-					if (BookId != 0)
-					{
-						IApplicationDbContext db = new ApplicationDbContext();
-						Book = db.Books.First(c => c.Id == BookId);
-					}
-				}
-				return new ReadingDifficultiesDropDownListViewModel
-				{
-					ReadingDifficulties = GetReadingDifficulties(Book.ApplicationUserId)
-				};
-			}
-		}
+		//public ReadingDifficultiesDropDownListViewModel Difficulties
+		//{
+		//	get
+		//	{
+		//		if (Book == null)
+		//		{
+		//			if (BookId != 0)
+		//			{
+		//				IApplicationDbContext db = new ApplicationDbContext();
+		//				Book = db.Books.First(c => c.Id == BookId);
+		//			}
+		//		}
+		//		return new ReadingDifficultiesDropDownListViewModel
+		//		{
+		//			ReadingDifficulties = GetReadingDifficulties(Book.ApplicationUserId)
+		//		};
+		//	}
+		//}
 
 		[Display(Name = "Assignment Name")]
 		public string AssignmentName { get; set; }

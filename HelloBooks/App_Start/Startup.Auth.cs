@@ -1,4 +1,5 @@
 ﻿using System;
+using Google.Apis.Calendar.v3;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -61,11 +62,24 @@ namespace HelloBooks
 			//   appId: "",
 			//   appSecret: "");
 
-			app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+			GoogleOAuth2AuthenticationOptions google = new GoogleOAuth2AuthenticationOptions()
 			{
 				ClientId = "80693274979-1ia591l1g7cu48dc91j4drbngjocl4m4.apps.googleusercontent.com",
 				ClientSecret = "r9yvhLhl7wznmF4UgL04yDNv"
-			});
+
+			};
+
+			google.Scope.Add("profile");
+			google.Scope.Add(CalendarService.Scope.Calendar);
+			app.UseGoogleAuthentication(google);
+
+			//app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+			//{
+			//	ClientId = "80693274979-1ia591l1g7cu48dc91j4drbngjocl4m4.apps.googleusercontent.com",
+			//	ClientSecret = "r9yvhLhl7wznmF4UgL04yDNv",
+			//	Scope = {CalendarService.Scope.Calendar}
+
+			//});
 		}
 	}
 }

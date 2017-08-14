@@ -37,21 +37,6 @@ namespace HelloBooks.Controllers
 			this.principal = principal;
 		}
 
-
-
-
-
-		//[HttpGet]
-		//public ActionResult AddNewAssignment(int? bookId)
-		//{
-		//	Book book = db.Books.First(c => c.Id == bookId);
-		//	Assignment newAssignment = new Assignment()
-		//	{
-		//		Book = book
-		//	};
-		//	return PartialView("_newAssignmentPartial");
-		//}
-
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult NewAssignment([Bind(Include = "AssignmentName,DueDate,BookId,ReadingDifficultyId")]Assignment newAssignment)

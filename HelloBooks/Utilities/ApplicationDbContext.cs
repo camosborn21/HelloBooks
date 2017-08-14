@@ -54,6 +54,8 @@ namespace HelloBooks.Utilities
 		public IDbSet<BookPropertyType> BookPropertyTypes { get; set; }
 		public IDbSet<BookProperty> BookProperties{ get; set; }
 		public IDbSet<ReadingDifficulty> ReadingDifficulties { get; set; }
+
+		//public System.Data.Entity.DbSet<HelloBooks.Models.ApplicationUser> ApplicationUsers { get; set; }
 		//public System.Data.Entity.DbSet<HelloBooks.Models.ApplicationUser> ApplicationUsers { get; set; }
 	}
 

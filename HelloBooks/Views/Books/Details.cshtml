@@ -57,7 +57,8 @@
 					@Html.DisplayFor(modelItem => item.DueDate)
 				</td>
 				<td>
-					@(item.ModifiedPagesPerHour > 0 ? Html.DisplayFor(modelItem => item.ModifiedPagesPerHour) : Html.DisplayFor(modelItem => item.ReadingDifficulty.PagesPerHour))
+					@{ string readingDifficulty = item.ModifiedPagesPerHour > 0 ? item.GetModifiedDifficultyString() : item.ReadingDifficulty.GetDifficultyString();}
+					@Html.DisplayFor(c=>readingDifficulty)
 				</td>
 			</tr>
 			<tr>
@@ -271,16 +272,6 @@
 	@Html.ActionLink("Back to List", "Index")
 </p>
 @section ActionScripts{
-
-	@*@Html.RenderResources("ShowPartialsAction")*@
-	@*<script>
-			$('#showNewReadingProgressButton').on('click',
-				function() {
-					$('#newProgressTable').show("fade", 1000);
-					$('#showNewReadingProgressTableRow').hide();
-				});
-		</script>*@
-
 	<script>
 		@foreach (var strHtmlString in scriptHtmlStrings)
 		{
@@ -294,7 +285,5 @@
 				$("#newAssignmentTable").show("fade", 1000);
 				$("#showNewAssignmentPartialTableRow").hide();
 			});
-
-
 	</script>
 }

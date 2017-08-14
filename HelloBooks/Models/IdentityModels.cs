@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -31,5 +32,11 @@ namespace HelloBooks.Models
 
 		public string GoogleCalendarId { get; set; }
 
+		public bool GoogleCalendarIsUnique { get; set; }
+
+		//public string GetGoogleLoginId()
+		//{
+		//	var Logins = 
+		//}
 	}
 }

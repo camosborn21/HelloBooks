@@ -13,5 +13,15 @@ namespace HelloBooks.Models
 		public string ApplicationUserId { get; set; }
 		[Display(Name = "Pages Per Hour")]
 		public int PagesPerHour { get; set; }
+		public string DifficultyTitle { get; set; }
+
+		public string GetDifficultyString()
+		{
+			if (DifficultyTitle != null)
+			{
+				return DifficultyTitle + " (" + PagesPerHour + " pages per hour)";
+			}
+			return PagesPerHour.ToString();
+		}
 	}
 }

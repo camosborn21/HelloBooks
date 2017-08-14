@@ -221,6 +221,7 @@
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -260,6 +261,14 @@
     <Compile Include="Migrations\201708040826095_AddedReadingDifficultiesToUser.Designer.cs">
       <DependentUpon>201708040826095_AddedReadingDifficultiesToUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708132055194_AddDifficultyTitle.cs" />
+    <Compile Include="Migrations\201708132055194_AddDifficultyTitle.Designer.cs">
+      <DependentUpon>201708132055194_AddDifficultyTitle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708140317272_AddGoogleCalIsUnique.cs" />
+    <Compile Include="Migrations\201708140317272_AddGoogleCalIsUnique.Designer.cs">
+      <DependentUpon>201708140317272_AddGoogleCalIsUnique.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUserAccountTypes.cs" />
@@ -267,7 +276,6 @@
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\BookPropertyTypes.cs" />
-    <Compile Include="Models\DropDownListViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ReadingAvailability.cs" />
@@ -451,6 +459,9 @@
     <Content Include="Views\Assignments\_newAssignmentPartial.cshtml" />
     <Content Include="Views\Assignments\_newRequiredReadingPartial.cshtml" />
     <Content Include="Views\Assignments\_newReadingProgressPartial.cshtml" />
+    <Content Include="Views\User\Settings.cshtml" />
+    <Content Include="Views\User\_newReadingDifficultyPartial.cshtml" />
+    <Content Include="Views\User\GetIdentityFacts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -485,6 +496,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708040826095_AddedReadingDifficultiesToUser.resx">
       <DependentUpon>201708040826095_AddedReadingDifficultiesToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708132055194_AddDifficultyTitle.resx">
+      <DependentUpon>201708132055194_AddDifficultyTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708140317272_AddGoogleCalIsUnique.resx">
+      <DependentUpon>201708140317272_AddGoogleCalIsUnique.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

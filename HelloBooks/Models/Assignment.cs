@@ -69,7 +69,10 @@ namespace HelloBooks.Models
 
 		public virtual ICollection<ReadingProgress> Reading { get; set; }
 
-		
+		public string GetModifiedDifficultyString()
+		{
+			return "Modified speed: " + ModifiedPagesPerHour + " pages per hour";
+		}
 	}
 
 	public class RequiredPages

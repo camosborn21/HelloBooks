@@ -17,10 +17,10 @@ namespace HelloBooks.Models
 		[Display(Name = "Email")]
 		public string Email { get; set; }
 
-		[Display(Name="Create New Google Calendar")]
-		public bool CreateNewCalendar { get; set; }
+		//[Display(Name="Create New Google Calendar")]
+		//public bool CreateNewCalendar { get; set; }
 
-		public string CalendarId { get; set; }
+		//public string CalendarId { get; set; }
 	}
 
 	public class ExternalLoginListViewModel

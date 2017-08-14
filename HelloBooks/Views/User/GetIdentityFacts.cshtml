@@ -1,0 +1,13 @@
+﻿@model IList<Microsoft.AspNet.Identity.UserLoginInfo>
+@{
+    ViewBag.Title = "GetIdentityFacts";
+}
+
+<h2>GetIdentityFacts</h2>
+<h1>@ViewBag.GoogleProviderKey</h1>
+@* List User Login Info -- This Worked to List The Provider Key*@
+@foreach (var item in Model)
+{
+	string itemString = item.LoginProvider + " " + item.ProviderKey;
+	<p>@itemString</p>
+}

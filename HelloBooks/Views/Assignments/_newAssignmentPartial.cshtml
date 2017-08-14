@@ -29,7 +29,7 @@
 
 			@Html.DropDownListFor(model => model.ReadingDifficultyId, Model.Book.User.UserDefinedReadingDifficulties.OrderBy(m => m.Id).Select(rd => new SelectListItem
  {
-	 Text = rd.PagesPerHour.ToString(),
+	 Text = rd.GetDifficultyString(),
 	 Value = rd.Id.ToString()
  }), new { @class = "form-control" })
 			

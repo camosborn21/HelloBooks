@@ -349,9 +349,12 @@ namespace HelloBooks.Controllers
 				case SignInStatus.Failure:
 				default:
 					// If the user does not have an account, then prompt the user to create an account
+
+					ExternalLoginConfirmationViewModel viewModel = new ExternalLoginConfirmationViewModel();
+					viewModel.Email = loginInfo.Email;
 					ViewBag.ReturnUrl = returnUrl;
 					ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-					return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+					return View("ExternalLoginConfirmation", viewModel);
 			}
 		}
 
@@ -407,7 +410,13 @@ namespace HelloBooks.Controllers
 		public ActionResult LogOff()
 		{
 			AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-			return RedirectToAction("Index", "Home");
+
+			Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.UtcNow.AddDays(-1);
+			Response.Cookies["__RequestVerificationToken"].Expires = DateTime.UtcNow.AddDays(-1);
+
+			return Redirect(
+				"https://www.google.com/accounts/logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:49698");
+			//return RedirectToAction("Index", "Home");
 		}
 
 		//

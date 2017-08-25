@@ -80,6 +80,7 @@
 						@Html.AntiForgeryToken()
 						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 						<h6>Google Calendars You Own</h6>
+						@Html.HiddenFor(model=>model.Id, new {htmlAttibutes = new {@Value = Model.Id}})
 						@Html.DropDownListFor(model => model.GoogleCalendarId, service.GetUserOwnedCalendars().Select(c => new SelectListItem
 		 {
 			 Text = c.Summary,

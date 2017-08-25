@@ -35,27 +35,6 @@
 		</div>
 	</div>
 
-	@*<div class="form-group">
-		@Html.LabelFor(m => m.CreateNewCalendar, new { @class = "col-md-2 control-label" })
-		<div class="col-md-10">
-			@Html.EditorFor(m => m.CreateNewCalendar, new { @class = "form-control" })
-			@Html.ValidationMessageFor(m => m.CreateNewCalendar, "", new { @class = "text-danger" })
-		</div>
-	</div>
-
-
-	string displayDropDown = Model.CreateNewCalendar == false ? "" : "none";
-
-
-	<div id="calenderPicker" style="display: @displayDropDown"></div>
-
-	@Html.DropDownListFor(model=>model.CalendarId, new UserCalendarService().GetUserOwnedCalendars().Select(cle=> new SelectListItem()
-	{
-		Text = cle.Summary,
-		Value = cle.Id
-	}),new {@class="form-control"})*@
-
-
 	<div class="form-group">
 		@Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
 		<div class="col-md-10">

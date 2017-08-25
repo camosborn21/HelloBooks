@@ -16,7 +16,21 @@ namespace HelloBooks.Utilities
 	public class UserCalendarService
 	{
 		//private string _providerKey;
-		//private ApplicationUser _user;
+		private ApplicationUser _user;
+		//private CalendarList _calendarList;
+
+		//public CalendarList CalendarList
+		//{
+		//	get
+		//	{
+		//		if (_calendarList == null)
+		//		{
+		//			Task<UserCredential> credential = GetUserCredential();
+		//			_calendarList = new CalendarList();
+		//		}
+		//		return _calendarList;
+		//	}
+		//}
 		private CalendarService _service;
 
 		public CalendarService Service
@@ -44,12 +58,13 @@ namespace HelloBooks.Utilities
 		//}
 		public UserCalendarService(ApplicationUser user)
 		{
-			//_user = user;
+			_user = user;
 		}
 
 		public Calendar GetCalendarById(string id)
 		{
 			return Service.Calendars.Get(id).Execute();
+
 		}
 
 		public string CreateNewCalendarWithId()
@@ -65,19 +80,20 @@ namespace HelloBooks.Utilities
 
 		public IList<CalendarListEntry> GetUserOwnedCalendars()
 		{
+			
 			var calendarData = Service.CalendarList.List().Execute();
 			return calendarData.Items.Where(c => c.AccessRole == "owner").ToList();
 		}
 
 		private async Task<UserCredential> GetUserCredential()
 		{
-			//string googleUserId = _user.Logins.First(c => c.LoginProvider == "Google").ProviderKey;
-
+			string googleUserId = _user.Logins.First(c => c.LoginProvider == "Google").ProviderKey;
+			
 			var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(new ClientSecrets()
 			{
 				ClientId = "80693274979-1ia591l1g7cu48dc91j4drbngjocl4m4.apps.googleusercontent.com",
 				ClientSecret = "r9yvhLhl7wznmF4UgL04yDNv"
-			}, new[] { CalendarService.Scope.Calendar }, "user", CancellationToken.None);
+			}, new[] { CalendarService.Scope.Calendar }, googleUserId, CancellationToken.None);
 
 			return credential;
 		}

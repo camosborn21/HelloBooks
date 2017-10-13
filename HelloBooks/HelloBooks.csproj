@@ -221,6 +221,7 @@
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReadingAvailabilitiesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -462,6 +463,11 @@
     <Content Include="Views\User\Settings.cshtml" />
     <Content Include="Views\User\_newReadingDifficultyPartial.cshtml" />
     <Content Include="Views\User\GetIdentityFacts.cshtml" />
+    <Content Include="Views\ReadingAvailabilities\Create.cshtml" />
+    <Content Include="Views\ReadingAvailabilities\Delete.cshtml" />
+    <Content Include="Views\ReadingAvailabilities\Details.cshtml" />
+    <Content Include="Views\ReadingAvailabilities\Edit.cshtml" />
+    <Content Include="Views\ReadingAvailabilities\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

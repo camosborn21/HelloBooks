@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Google.Apis.Calendar.v3.Data;
+using HelloBooks.Utilities;
 
 namespace HelloBooks.Models
 {
@@ -28,6 +30,8 @@ namespace HelloBooks.Models
 
 		[Required]
 		public string CalenderEventId { get; set; }
+
+
 
 	}
 }

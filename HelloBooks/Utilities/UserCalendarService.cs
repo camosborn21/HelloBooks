@@ -90,12 +90,32 @@ namespace HelloBooks.Utilities
 			foreach (var userEvent in userEvents)
 			{
 				if (userEvent == null) continue;
-				if (db.ReadingAvailabilities.Where(av => av.ApplicationUserId == _user.Id).ToList().Count != 0)
+                //[10/15/2017 13:49] Cameron Osborn: Is event already present in list of reading availability, Verify date and time is still the same
+                if (db.ReadingAvailabilities.Where(av => av.ApplicationUserId == _user.Id).ToList().Count != 0)
 				{
-					if (db.ReadingAvailabilities.Count(r => (r.CalenderEventId == userEvent.Id) &&
-					                                        (r.User.GoogleCalendarId == _user.GoogleCalendarId)) != 0 ) continue;
+				    if (db.ReadingAvailabilities.Count(r => (r.CalenderEventId == userEvent.Id) &&
+				                                            (r.User.GoogleCalendarId == _user.GoogleCalendarId)) != 0)
+				    {
+				        // Replace with Syncronization check to calendar
+				        ReadingAvailability updateAvailability =
+				            db.ReadingAvailabilities.First(e => e.CalenderEventId == userEvent.Id);
+
+				        if (userEvent.Summary != _user.GetUserCalendarReadingToken())
+				        {
+				            db.ReadingAvailabilities.Remove(updateAvailability);
+                            continue;
+				        }
+
+				        if (updateAvailability.ReadingStartTime != userEvent.Start.DateTime && userEvent.Start.DateTime != null)
+				                updateAvailability.ReadingStartTime = (DateTime) userEvent.Start.DateTime;
+
+				        if (updateAvailability.ReadingEndTime != userEvent.End.DateTime && userEvent.End.DateTime != null)
+				            updateAvailability.ReadingEndTime = (DateTime) userEvent.End.DateTime;
+
+                        continue;
+				    } 
 				}
-				if (_user.GoogleCalendarIsUnique == true ){
+				if (_user.GoogleCalendarIsUnique){
 					if (userEvent.Start.DateTime == null) continue;
 					if (userEvent.End.DateTime != null)
 					{
@@ -130,10 +150,23 @@ namespace HelloBooks.Utilities
 					}
 				}
 			}
-			
+
+            //[10/15/2017 13:59] Cameron Osborn: Verify that Reading events weren't removed from the calendar
+		    IList<ReadingAvailability> userReadingAvailabilities =
+		        db.ReadingAvailabilities.Where(c => c.ApplicationUserId == _user.Id).ToList();
+		    foreach (ReadingAvailability userReadingAvailability in userReadingAvailabilities)
+		    {
+		        if (userEvents.All(e => e.Id != userReadingAvailability.CalenderEventId))
+		        {
+                    //[10/15/2017 14:24] Cameron Osborn: This event has been removed from the Google Calendar.
+                    db.ReadingAvailabilities.Remove(userReadingAvailability);
+		            db.SaveChanges();
+		        }
+		    }
+
 		}
 
-		private async Task<UserCredential> GetUserCredential()
+        private async Task<UserCredential> GetUserCredential()
 		{
 			string googleUserId = _user.Logins.First(c => c.LoginProvider == "Google").ProviderKey;
 			

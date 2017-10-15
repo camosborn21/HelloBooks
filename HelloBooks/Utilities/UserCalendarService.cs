@@ -89,6 +89,7 @@ namespace HelloBooks.Utilities
 			IList<Event> userEvents = GetUserEvents();
 			foreach (var userEvent in userEvents)
 			{
+				if (userEvent == null) continue;
 				if (db.ReadingAvailabilities.Where(av => av.ApplicationUserId == _user.Id).ToList().Count != 0)
 				{
 					if (db.ReadingAvailabilities.Count(r => (r.CalenderEventId == userEvent.Id) &&
@@ -112,7 +113,21 @@ namespace HelloBooks.Utilities
 				}
 				else
 				{
-					
+
+					if (userEvent.Start?.DateTime == null) continue;
+					if (userEvent.End.DateTime == null) continue;
+					if (userEvent.Summary == _user.GetUserCalendarReadingToken())
+					{
+						ReadingAvailability newAvailability = new ReadingAvailability()
+						{
+							ApplicationUserId = _user.Id,
+							CalenderEventId = userEvent.Id,
+							ReadingStartTime = (DateTime) userEvent.Start.DateTime,
+							ReadingEndTime = (DateTime) userEvent.End.DateTime
+						};
+						db.ReadingAvailabilities.Add(newAvailability);
+						db.SaveChanges();
+					}
 				}
 			}
 			

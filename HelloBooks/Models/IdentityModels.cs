@@ -34,9 +34,9 @@ namespace HelloBooks.Models
 
 		public bool GoogleCalendarIsUnique { get; set; }
 
-		//public string GetGoogleLoginId()
-		//{
-		//	var Logins = 
-		//}
+		public string GetUserCalendarReadingToken()
+		{
+			return "Reading";
+		}
 	}
 }

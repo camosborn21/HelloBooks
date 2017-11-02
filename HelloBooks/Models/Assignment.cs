@@ -91,6 +91,26 @@ namespace HelloBooks.Models
 		[Required]
 		[Display(Name = "Ending Page")]
 		public int LastPage { get; set; }
+
+		public int GetPagesRemaining()
+		{
+			int totalPages = LastPage - StartPage;
+			bool[] pagesRead = new bool[totalPages];
+			foreach (ReadingProgress progress in Assignment.Reading)
+			{
+				int varStart = progress.StartPage, varFinish=progress.FinishPage;
+				if (varStart < StartPage)
+					varStart = StartPage;
+				if (varFinish > LastPage)
+					varFinish = LastPage;
+
+				for (int i = varStart; i <= varFinish; i++)
+				{
+					pagesRead[i - varStart] = true;
+				}
+			}
+			return pagesRead.Count(c => c.Equals(false));
+		}
 	}
 
 	public class ReadingProgress

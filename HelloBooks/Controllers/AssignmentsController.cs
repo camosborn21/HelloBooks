@@ -57,8 +57,11 @@ namespace HelloBooks.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult NewRequiredReading([Bind(Include = "StartPage,LastPage,AssignmentId")]RequiredPages newReading)
 		{
+
 			Assignment assignment = db.Assignments.First(c => c.Id == newReading.AssignmentId);
 			newReading.Assignment = assignment;
+			if (newReading.LastPage < newReading.StartPage)
+				return RedirectToAction("Details", "Books", new { id = assignment.BookId});
 			assignment.Pages.Add(newReading);
 			db.SaveChanges();
 			return RedirectToAction("Details", "Books", new {id = assignment.BookId});
@@ -71,6 +74,12 @@ namespace HelloBooks.Controllers
 		{
 			Assignment assignment = db.Assignments.First(c => c.Id == newProgress.AssignmentId);
 			newProgress.Assignment = assignment;
+			if (newProgress.FinishPage < newProgress.StartPage)
+				return RedirectToAction("Details", "Books", new {id = assignment.BookId});
+
+			if (newProgress.EndDateTime < newProgress.StartDateTime)
+				return RedirectToAction("Details", "Books", new {id = assignment.BookId});
+
 			assignment.Reading.Add(newProgress);
 			db.SaveChanges();
 			return RedirectToAction("Details", "Books", new {id = assignment.BookId});
